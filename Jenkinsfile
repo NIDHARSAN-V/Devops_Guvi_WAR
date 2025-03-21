@@ -34,7 +34,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'Jenkin-Docker-ID', url: 'https://index.docker.io/v1/') {
+                    withDockerRegistry(credentialsId: 'dockerhub_token', url: 'https://index.docker.io/v1/') {
                         sh 'docker push nidharsan8008/warimage-jenkins1'
                     }
                 }
