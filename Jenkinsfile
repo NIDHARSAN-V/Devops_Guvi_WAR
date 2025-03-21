@@ -10,15 +10,15 @@ pipeline {
         
         stage('Build WAR File') {
             steps {
-                bat 'mvn clean package'  // Build WAR file using Maven
+                sh 'mvn clean package'  // Build WAR file using Maven
             }
         }
         
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat 'docker build -t warimage-jenkins .'
-                    bat 'docker tag  warimage-jenkins nidharsan8008/warimage-jenkins1'
+                    sh 'docker build -t warimage-jenkins .'
+                    sh 'docker tag warimage-jenkins nidharsan8008/warimage-jenkins1'
                 }
             }
         }
@@ -26,18 +26,17 @@ pipeline {
         // stage('Run Docker Container') {  // Optional stage to test the container
         //     steps {
         //         script {
-        //             bat 'docker run -d -p 8888:8080 --name war-container-jenkins warimage-jenkins'
+        //             sh 'docker run -d -p 8888:8080 --name war-container-jenkins warimage-jenkins'
         //         }
         //     }
         // }
         
-         stage('Push to Docker Hub') {
+        stage('Push to Docker Hub') {
             steps {
                 script {
-                   
-                 withDockerRegistry(credentialsId: 'Jenkin-Docker-ID', url: 'https://index.docker.io/v1/') {
-                     bat 'docker push nidharsan8008/warimage-jenkins1 '
-                  }
+                    withDockerRegistry(credentialsId: 'Jenkin-Docker-ID', url: 'https://index.docker.io/v1/') {
+                        sh 'docker push nidharsan8008/warimage-jenkins1'
+                    }
                 }
             }
         }
