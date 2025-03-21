@@ -40,5 +40,25 @@ pipeline {
                 }
             }
         }
+        
+        
+         stage('Deploy with deployment.yml') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: 'minikube ', contextName: 'minikube', credentialsId: 'MiniKube_ID', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.49.2:8443') {
+                        sh 'kubectl apply -f deployment.yml'
+                 }
+            }
+        }
+        
+        
+        //  stage('Test') {
+        //     steps {
+        //         withKubeConfig(caCertificate: '', clusterName: 'minikube ', contextName: 'minikube', credentialsId: 'MiniKube_ID', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.49.2:32274') {
+        //                 sh ''
+        //          }
+        //     }
+        // }
+        
+        
     }
 }
